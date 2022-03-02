@@ -1,0 +1,37 @@
+---
+- name: Instalación Cylance
+  hosts: all
+  tasks:
+
+  - name: Creacion de directorio cylance para archivo de configuracion
+    file: 
+      path: /opt/cylance
+      state: directory
+
+  - name: Crear archivo config_defaults.txt
+    shell: | 
+      echo -e 'InstallToken=HOLZ8tGdrvHUscPiNfLCvN1H\nSelfProtectionLevel=1\nLogLevel=3\nVenueZone=TIGO SERVIDORES LINUX\nUiMode=1' >> /opt/cylance/config_defaults.txt
+
+  - name: Instalar CylancePROTECTOpenDriver desde paquete local
+    yum:
+      name: /home/mtapia/CylancePROTECTOpenDriver-2.1.1590-2316.el8.x86_64.rpm #Indicar ruta del paquete RPM local. /home/CylancePROTECTOpenDriver.version.rpm
+      state: present
+      disable_gpg_check: yes  #Deshabilitar el GPG Signing para evitar errores.
+
+  - name: Instalar CylancePROTECTDriver desde paquete local
+    yum:
+      name: /home/mtapia/CylancePROTECTDriver-2.1.1590-2316.el8.x86_64.rpm #Indicar ruta del paquete RPM local. /home/CylancePROTECTDriver.version.rpm
+      state: present
+      disable_gpg_check: yes  #Deshabilitar el GPG Signing para evitar errores.
+  
+  - name: Instalar CylancePROTECT desde paquete local
+    yum:
+      name: /home/mtapia/CylancePROTECT.el8.rpm #Indicar ruta del paquete RPM local. /home/CylancePROTECT.version.rpm
+      state: present
+      disable_gpg_check: yes  #Deshabilitar el GPG Signing para evitar errores.
+  
+  - name: Instalar CylancePROTECTUI desde paquete local
+    yum:
+      name: /home/mtapia/CylancePROTECTUI.el8.rpm #Indicar ruta del paquete RPM local. /home/CylancePROTECTUI.version.rpm
+      state: present
+      disable_gpg_check: yes  #Deshabilitar el GPG Signing para evitar errores.

@@ -1,0 +1,45 @@
+--- #WORKING
+- name: Instalación Chrony
+  hosts: all
+  tasks:
+
+  - name: Instalar paquete Chrony
+    dnf:
+      name: chrony
+      state: latest
+  
+
+#--------------- La configuracion NTP debe ser correcta para Encender y habilitar el servicio chronyd
+  #- name: Configurar como NTP server
+    #shell: | 
+      #echo 'allow test_address/24' >> /etc/chrony.conf
+  
+
+  #- name: Configurar como NTP client
+    #shell: | 
+      #echo 'server test_adress' >> /etc/chrony.conf
+  
+  - name: Encender y habilitar el servicio chronyd
+    service:
+      name: chronyd
+      state: started
+      enabled: yes
+    loop: 
+       - 'firewall-cmd --permanent --add-service=ntp' 
+       - 'firewall-cmd --reload' 
+  
+
+#can echo >> chrony.conf
+#/etc/chrony.conf
+#NTP server: allow ntp_server_address/24
+#NTP client: server ntp_server_address 
+  
+#from vars
+  #- name: Configurar como NTP server
+    #shell: | 
+      #echo 'allow {{ ntp_server_address }}/24' >> /etc/chrony.conf
+  
+
+  #- name: Configurar como NTP client
+    #shell: | 
+      #echo 'server {{ ntp_server_address }}' >> /etc/chrony.conf

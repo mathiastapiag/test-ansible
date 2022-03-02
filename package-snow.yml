@@ -1,0 +1,25 @@
+--- #WORKING
+- name: Instalación Snow
+  hosts: all
+  tasks:
+
+  - name: Instalar JDK & JRE 8  #Pre-requisito para Snow agent.
+    yum:
+      name: 
+        - java-1.8.0-openjdk-devel
+        - java-1.8.0-openjdk
+      state: latest
+  
+  - name: Instalar JDK & JRE 11 #Pre-requisito para Snow agent.
+    yum:
+      name: 
+        - java-11-openjdk-devel
+        - java-11-openjdk
+      state: latest
+  
+  - name: Instalar Snow desde paquete local
+    yum:
+      name: #/home/mtapia/MILLICOM-HONDURAS_snowagent-5.2.0-1.x86_64.rpm #Indicar ruta del paquete RPM local.
+      state: present
+      disable_gpg_check: yes  #Deshabilitar el GPG Signing para evitar errores.
+  

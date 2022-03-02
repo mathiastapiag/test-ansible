@@ -1,0 +1,15 @@
+--- #WORKING
+- name: Instalación Rsyslog
+  hosts: all
+  tasks:
+
+  - name: Instalar paquete Rsyslog
+    dnf:
+      name: rsyslog
+      state: latest
+  
+  - name: Encender y habilitar el servicio rsyslog
+    service:
+      name: rsyslog.service
+      state: started
+      enabled: yes

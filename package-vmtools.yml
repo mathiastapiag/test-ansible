@@ -1,0 +1,19 @@
+--- #WORKING
+- name: Instalación VMTools
+  hosts: all
+  tasks:
+  
+  # Makecache not working -- not required
+  #- name: Update Repo
+    #dnf:
+      #name: makecache
+  
+  - name: Instalar paquete VMTools
+    dnf:
+      name: open-vm-tools
+      state: latest
+  
+  - name: Instalar Display Drivers 
+    dnf:
+      name: xorg-x11-drv-vmware
+      state: latest

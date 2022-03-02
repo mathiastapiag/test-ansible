@@ -1,0 +1,29 @@
+---
+- name: Instalación SNMP
+  hosts: all
+  tasks:
+
+  - name: Instalar paquete net-snmp
+    dnf:
+      name: net-snmp
+      state: latest
+  
+  - name: Instalar paquete net-snmp-utils
+    dnf:
+      name: net-snmp-utils
+      state: latest
+  
+  - name: Crear archivo snmp.xml
+    shell: | 
+      echo -e '<?xml version="1.0" encoding="utf-8"?>\n<service>\n\t<short>SNMPD</short>\n\t<description>SNMP daemon</description>\n\t<port protocol="udp" port="161"/>\n</service>' >> /etc/firewalld/services/snmpd.xml
+  
+  - name: Encender y habilitar el servicio snmpd
+    service:
+      name: snmpd
+      state: started
+      enabled: yes
+    loop: 
+       - 'firewall-cmd --zone=public --add-service snmpd --permanent' 
+       - 'firewall-cmd --reload' 
+
+
